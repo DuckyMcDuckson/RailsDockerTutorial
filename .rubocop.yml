@@ -25,15 +25,17 @@ Metrics/BlockLength:
     - "spec/**/*"
 Metrics/AbcSize:
   Max: 50
-Metrics/PerceivedComplexity:
-  Max: 8
+Metrics/BlockNesting:
+  Max: 5
+Metrics/ClassLength:
+  Enabled: false
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/MethodLength:
   Max: 30
-Metrics/BlockNesting:
-  Max: 5
-Metrics/ClassLength:
+Metrics/PerceivedComplexity:
+  Max: 8
+Rails/FilePath:
   Enabled: false
 Style/AsciiComments:
   Enabled: false
