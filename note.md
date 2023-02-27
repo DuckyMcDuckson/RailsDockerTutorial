@@ -152,3 +152,22 @@ gem 'tailwindcss-rails', '~> 2.0'
 上記のコマンドは以下のドキュメンテーションの「2 Install Tailwind CSS」に記載されていた。
 
 - [Install Tailwind CSS with Ruby on Rails - Tailwind CSS](https://tailwindcss.com/docs/guides/ruby-on-rails)
+
+# その他
+## データベースのリセット
+今のところはデータを消去しても問題ないので、以下のコマンドでデータベースをリセットできる。
+
+```sh
+rake db:drop
+rake db:create
+rake db:migrate # devise が利用。
+```
+
+`rake db:drop` でデータベースが消えるので、既に稼働しているシステムで上のコマンドを実行してはならない。
+
+- [postgresql - rails db:migrate fails due to duplicate table - Stack Overflow](https://stackoverflow.com/questions/62119399/rails-dbmigrate-fails-due-to-duplicate-table)
+- [ruby on rails - Rake aborted... table 'users' already exists - Stack Overflow](https://stackoverflow.com/questions/7874330/rake-aborted-table-users-already-exists)
+- [Is there a way to recover a dropped mysql database? - Database Administrators Stack Exchange](https://dba.stackexchange.com/questions/23251/is-there-a-way-to-recover-a-dropped-mysql-database)
+
+## `production.rb` でのメーラー設定
+`config/environments/production.rb` でのメーラーの設定は一時的に開発環境 `config/environments/development.rb` と同じものを使っている。

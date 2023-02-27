@@ -33,3 +33,6 @@
 # tailwindcss.
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# dotenv-rails.
+/.env
