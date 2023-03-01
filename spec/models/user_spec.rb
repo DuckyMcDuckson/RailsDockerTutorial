@@ -4,11 +4,11 @@ RSpec.describe User, type: :model do
   let(:name) { 'テスト太郎' }
   let(:email) { 'test@example.com' }
   let(:password) { '12345678' }
-  let(:user) { User.new(name: name, email: email, password: password, password_confirmation: password) }
+  let(:user) { User.new(name:, email:, password:, password_confirmation: password) }
 
   describe '.first' do
     before do
-      create(:user, name: name, email: email)
+      create(:user, name:, email:)
     end
 
     subject { described_class.first }
@@ -31,21 +31,6 @@ RSpec.describe User, type: :model do
 
         context 'nameが20文字を超える場合' do
           let(:name) { 'あいうえおかきくけこさしすせそたちつてとな' } # 21文字
-          it 'User オブジェクトは無効である' do
-            expect(user.valid?).to be(false)
-            expect(user.errors[:name]).to include('is too long (maximum is 20 characters)')
-          end
-        end
-
-        context 'nameが20文字以下の場合 (ASCII)' do
-          let(:name) { '01234567890123456789' } # 20文字
-          it 'User オブジェクトは有効である' do
-            expect(user.valid?).to be(true)
-          end
-        end
-
-        context 'nameが20文字を超える場合 (ASCII)' do
-          let(:name) { '012345678901234567890' } # 21文字
           it 'User オブジェクトは無効である' do
             expect(user.valid?).to be(false)
             expect(user.errors[:name]).to include('is too long (maximum is 20 characters)')

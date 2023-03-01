@@ -179,6 +179,39 @@ config.i18n.default_locale = :en
 - [3-2. User モデルのテスト｜Ruby on Rails (7.0) の実践的な開発手法に触れてみよう](https://zenn.dev/tmasuyama1114/books/ab51fea5d5f659/viewer/94919e#%E3%83%90%E3%83%AA%E3%83%87%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E8%BF%BD%E5%8A%A0)
 - [Rails Internationalization (I18n) API — Ruby on Rails Guides](https://guides.rubyonrails.org/i18n.html#translations-for-active-record-models)
 
+## RSpec のテストでのユーザ認証
+Devise の `:confirmable` を設定しているので `create()` によって作成したユーザを認証する必要がある。以下のように `user.confirm` を使えば RSpec のテスト内でユーザ認証できる。
+
+```ruby
+context 'SomeTest' do
+  before do
+    user = create(:user)
+    user.confirm
+    # `sign_in user` などが続く。
+  end
+end
+```
+
+- [RSpec初心者のdevise認証システムテスト - Qiita](https://qiita.com/zongxiaojie/items/d488edd42ba3864859c7)
+
+メール認証の場合、以下のように送信したメールの認証 URL を訪れることもできる。
+
+```ruby
+describe 'OtherTest' do
+  before do
+    ActionMailer::Base.deliveries.clear
+    create(:user, name:, email:, password:, password_confirmation: password)
+
+    # Visit confimation URL in mail.
+    visit ActionMailer::Base.deliveries.last.body.encoded.[](/http[^"]+/)
+
+    # ...
+  end
+end
+```
+
+- [Devise confirmable用のテスト（フィーチャスペック）を書く（解説動画付き） - Qiita](https://qiita.com/jnchito/items/64f4cde336632f9a4890)
+
 # その他
 ## データベースのリセット
 今のところはデータを消去しても問題ないので、以下のコマンドでデータベースをリセットできる。
