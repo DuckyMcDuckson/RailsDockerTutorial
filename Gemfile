@@ -76,6 +76,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec'
   gem 'spring-commands-rspec'
+  gem 'letter_opener_web', '~> 2.0'
 end
 
 group :test do
