@@ -153,6 +153,32 @@ gem 'tailwindcss-rails', '~> 2.0'
 
 - [Install Tailwind CSS with Ruby on Rails - Tailwind CSS](https://tailwindcss.com/docs/guides/ruby-on-rails)
 
+## テストとロケール
+参考文献 3-2 の「バリデーションのテストを追加」で掲載されいてるテストには以下の行が含まれている。
+
+```ruby
+expect(user.errors[:nickname]).to include('is too long (maximum is 20 characters)')
+```
+
+上記のテストは `'is too long (maximum is 20 characters)'` という文字列がエラーメッセージに含まれていることを想定している。しかし、今回は既に `config/locales/ja.yml` を作成していたためロケールが日本語となってしまい、以下のメッセージとともにテストに失敗した。
+
+```
+1) User validation name属性 文字数制限の検証 nameが20文字を超える場合 User オブジェクトは無効である
+     Failure/Error: expect(user.errors[:name]).to include('is too long (maximum is 20 characters)')
+       expected ["translation missing: ja.activerecord.errors.models.user.attributes.name.too_long"] to include "is too long (maximum is 20 characters)"
+     # ./spec/models/user_spec.rb:39:in `block (6 levels) in <main>'
+     # (以下コールスタックは省略。)
+```
+
+エラーを読むと `ja.activerecord.errors.models.user.attributes.name.too_long` という部分の翻訳が抜けていることが分かる。今回は `config/environments/test.rb` に以下の行を追加して、テスト時のロケールを英語にすることでテストを通した。
+
+```
+config.i18n.default_locale = :en
+```
+
+- [3-2. User モデルのテスト｜Ruby on Rails (7.0) の実践的な開発手法に触れてみよう](https://zenn.dev/tmasuyama1114/books/ab51fea5d5f659/viewer/94919e#%E3%83%90%E3%83%AA%E3%83%87%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E8%BF%BD%E5%8A%A0)
+- [Rails Internationalization (I18n) API — Ruby on Rails Guides](https://guides.rubyonrails.org/i18n.html#translations-for-active-record-models)
+
 # その他
 ## データベースのリセット
 今のところはデータを消去しても問題ないので、以下のコマンドでデータベースをリセットできる。
