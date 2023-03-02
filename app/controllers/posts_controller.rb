@@ -1,6 +1,14 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
 
+  def index
+    @posts = Post.limit(10).order(created_at: :desc)
+  end
+
+  def show
+    @post = Post.find_by(id: params[:id])
+  end
+
   def new
     @post = Post.new
   end
@@ -10,19 +18,11 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
     if @post.save
       flash[:notice] = '投稿しました'
-      redirect_to posts_path
+      redirect_to root_path
     else
       flash[:alert] = '投稿に失敗しました'
       render :new
     end
-  end
-
-  def show
-    @post = Post.find_by(id: params[:id])
-  end
-
-  def index
-    @posts = Post.limit(10).order(created_at: :desc)
   end
 
   def destroy
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
       @post.destroy
       flash[:notice] = '投稿が削除されました'
     end
-    redirect_to posts_path
+    redirect_to root_path
   end
 
   private
