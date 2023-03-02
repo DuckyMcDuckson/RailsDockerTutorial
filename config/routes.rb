@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   root "home#top"
 
-  resources :posts, only: [:new, :create, :show, :index]
+  resources :posts, only: [:new, :create, :show, :index, :destroy]
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
