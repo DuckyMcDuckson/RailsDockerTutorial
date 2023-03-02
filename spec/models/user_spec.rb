@@ -8,7 +8,10 @@ RSpec.describe User, type: :model do
 
   describe '.first' do
     before do
-      create(:user, name:, email:)
+      @user = create(:user, name: name, email: email)
+      @user.confirm
+
+      @post = create(:post, title: 'タイトル', content: '本文', user_id: @user.id)
     end
 
     subject { described_class.first }
@@ -16,6 +19,13 @@ RSpec.describe User, type: :model do
     it '事前に作成した通りのUserを返す' do
       expect(subject.name).to eq('テスト太郎')
       expect(subject.email).to eq('test@example.com')
+    end
+
+    it '紐づくPostの情報を取得できる' do
+      expect(subject.posts.size).to eq(1)
+      expect(subject.posts.first.title).to eq('タイトル')
+      expect(subject.posts.first.content).to eq('本文')
+      expect(subject.posts.first.user_id).to eq(@user.id)
     end
   end
 
