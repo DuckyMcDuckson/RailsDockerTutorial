@@ -33,7 +33,15 @@ RSpec.describe User, type: :model do
           let(:name) { 'あいうえおかきくけこさしすせそたちつてとな' } # 21文字
           it 'User オブジェクトは無効である' do
             expect(user.valid?).to be(false)
-            expect(user.errors[:name]).to include('is too long (maximum is 20 characters)')
+
+            # https://stackoverflow.com/a/6015467
+            max_name_length = User.validators_on(:name)[0].options[:maximum]
+            expect(user.errors[:name]).to include(
+              format(
+                I18n.t('activerecord.errors.models.user.attributes.name.too_long'),
+                count: max_name_length
+              )
+            )
           end
         end
       end
@@ -45,7 +53,8 @@ RSpec.describe User, type: :model do
       let(:name) { '' }
       it 'User オブジェクトは無効である' do
         expect(user.valid?).to be(false)
-        expect(user.errors[:name]).to include("can't be blank")
+        expect(user.errors[:name]).to include(
+          I18n.t('activerecord.errors.models.user.attributes.name.blank'))
       end
     end
   end
