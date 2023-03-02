@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
 
   describe '.first' do
     before do
-      @user = create(:user, name: name, email: email)
+      @user = create(:user, name:, email:)
       @user.confirm
 
       @post = create(:post, title: 'タイトル', content: '本文', user_id: @user.id)
@@ -64,7 +64,8 @@ RSpec.describe User, type: :model do
       it 'User オブジェクトは無効である' do
         expect(user.valid?).to be(false)
         expect(user.errors[:name]).to include(
-          I18n.t('activerecord.errors.models.user.attributes.name.blank'))
+          I18n.t('activerecord.errors.models.user.attributes.name.blank')
+        )
       end
     end
   end

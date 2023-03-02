@@ -8,7 +8,7 @@ RSpec.describe Post, type: :model do
   let(:user_id) { @user.id } # 作成したユーザーのIDを外部キーに設定
 
   describe 'バリデーションの検証' do
-    let(:post) { Post.new(title: title, content: content, user_id: user_id) }
+    let(:post) { Post.new(title:, content:, user_id:) }
 
     context '正常系' do
       it '有効である' do
@@ -58,7 +58,7 @@ RSpec.describe Post, type: :model do
   end
 
   describe 'Postが持つ情報の検証' do
-    before { create(:post, title: title, content: content, user_id: user_id) } # Post を作成
+    before { create(:post, title:, content:, user_id:) } # Post を作成
 
     subject { described_class.first }
 

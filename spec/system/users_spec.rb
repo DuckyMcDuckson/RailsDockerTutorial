@@ -86,7 +86,7 @@ RSpec.describe 'Users', type: :system do
             format(
               I18n.t('activerecord.errors.models.user.attributes.name.too_long'),
               count: max_name_length
-            ),
+            )
           ].join(' '))
         end
       end
