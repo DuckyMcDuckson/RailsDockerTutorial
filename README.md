@@ -6,6 +6,7 @@ docker-compose run --no-deps web rails new . --force --database=mysql
 docker-compose build
 docker-compose run --rm web rails db:create
 docker-compose run --rm web bin/rails tailwindcss:install
+docker-compose run --rm web bin/rails tailwindcss:build
 docker-compose up
 ```
 
